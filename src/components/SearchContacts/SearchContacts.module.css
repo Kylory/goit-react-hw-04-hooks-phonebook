@@ -1,0 +1,9 @@
+.searchContacts {
+  display: flex;
+  flex-direction: column;
+}
+
+.searchContacts input {
+  width: 200px;
+  margin-top: 10px;
+}

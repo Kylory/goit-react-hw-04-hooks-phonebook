@@ -1,0 +1,11 @@
+.ContactsList {
+  padding-top: 20px;
+}
+
+.ContactsList li:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.ContactsList button {
+  margin-left: 10px;
+}
