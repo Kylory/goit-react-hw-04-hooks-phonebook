@@ -3,6 +3,7 @@ import ContactForm from './components/ContactForm/ContactForm';
 import ContactsList from './components/ContactsList/ContactsList';
 import SearchContacts from './components/SearchContacts/SearchContacts';
 import shortid from 'shortid';
+import { render } from '@testing-library/react';
 
 // class App extends Component {
 //   state = {
@@ -33,33 +34,42 @@ const App = () => {
   //прокидується як prop в ContactForm
   const formSubmitHandler = data => {
     const { name, number } = data;
-    const { contacts } = this.state;
+    // const { contacts } = this.state;
 
-    this.setState({ name: name, number: number });
-    contacts.push({ id: shortid.generate(), name: name, number: number });
+    // this.setState({ name: name, number: number });
+    stateContacts.push({ id: shortid.generate(), name: name, number: number });
   };
 
   //Записує дані з фільтру в state
   const changeFilter = e => {
     // this.setState({ filter: e.target.value });
-    setStateFilter(e.target.value);
+    // setStateFilter(e.target.value);
+    setStateFilter(() => e.target.value);
   };
 
   //Повертає відфільтровані контакти (пошук)
   const getFilteredContacts = () => {
     // const { filter, contacts } = this.state;
-    const normalizedFilter = stateFilter.toLowerCase();
-    console.log(normalizedFilter);
 
-    return stateFilter(contact =>
-      contact.name.toLowerCase().includes(normalizedFilter),
-    );
+    // const normalizedFilter = stateFilter.toLowerCase();
+
+    // return contacts.filter(contact =>
+    //   contact.name.toLowerCase().includes(normalizedFilter),
+    // );
+
+    // return stateContacts.filter(contact =>
+    //   contact.name.toLowerCase().includes(normalizedFilter),
+    // );
+    return stateContacts;
   };
 
   const deleteContact = contactId => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
-    }));
+    // this.setState(prevState => ({
+    //   contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    setStateContacts(prevState => {
+      prevState.filter(contact => contact.id !== contactId);
+    });
+    // }));
   };
 
   return (
