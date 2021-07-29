@@ -3,7 +3,6 @@ import ContactForm from './components/ContactForm/ContactForm';
 import ContactsList from './components/ContactsList/ContactsList';
 import SearchContacts from './components/SearchContacts/SearchContacts';
 import shortid from 'shortid';
-import { render } from '@testing-library/react';
 
 // class App extends Component {
 //   state = {
@@ -11,7 +10,12 @@ import { render } from '@testing-library/react';
 //     filter: '',
 //   };
 const App = () => {
-  const [stateContacts, setStateContacts] = useState([]);
+  const [stateContacts, setStateContacts] = useState([
+    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+  ]);
   const [stateFilter, setStateFilter] = useState('');
 
   // Записує конткти в state з Local Storage
@@ -33,40 +37,37 @@ const App = () => {
   //Записує в contacts дані з форми
   //прокидується як prop в ContactForm
   const formSubmitHandler = data => {
-    const { name, number } = data;
-    // const { contacts } = this.state;
-
-    // this.setState({ name: name, number: number });
-    stateContacts.push({ id: shortid.generate(), name: name, number: number });
+    data.id = shortid.generate();
+    setStateContacts(prevState => [...prevState, data]);
   };
 
   //Записує дані з фільтру в state
   const changeFilter = e => {
-    // this.setState({ filter: e.target.value });
-    // setStateFilter(e.target.value);
     setStateFilter(() => e.target.value);
   };
 
   //Повертає відфільтровані контакти (пошук)
   const getFilteredContacts = () => {
-    // const { filter, contacts } = this.state;
-
-    // const normalizedFilter = stateFilter.toLowerCase();
-
-    // return contacts.filter(contact =>
-    //   contact.name.toLowerCase().includes(normalizedFilter),
-    // );
-
-    // return stateContacts.filter(contact =>
-    //   contact.name.toLowerCase().includes(normalizedFilter),
-    // );
-    return stateContacts;
+    console.log('getFilteredContacts works');
+    const normalizedFilter = stateFilter.toLowerCase();
+    console.log('stateContacts', stateContacts);
+    console.log(
+      'stateContacts.filter',
+      stateContacts.filter(contact =>
+        contact.name.toLowerCase().includes(normalizedFilter),
+      ),
+    );
+    return stateContacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter),
+    );
   };
 
   const deleteContact = contactId => {
     // this.setState(prevState => ({
     //   contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     setStateContacts(prevState => {
+      // console.log(prevState);
+      // console.log(prevState.filter(contact => contact.id !== contactId));
       prevState.filter(contact => contact.id !== contactId);
     });
     // }));
