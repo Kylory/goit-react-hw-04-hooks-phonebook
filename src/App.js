@@ -1,14 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ContactForm from './components/ContactForm/ContactForm';
 import ContactsList from './components/ContactsList/ContactsList';
 import SearchContacts from './components/SearchContacts/SearchContacts';
 import shortid from 'shortid';
 
-// class App extends Component {
-//   state = {
-//     contacts: [],
-//     filter: '',
-//   };
 const App = () => {
   const [stateContacts, setStateContacts] = useState([
     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -48,29 +43,17 @@ const App = () => {
 
   //Повертає відфільтровані контакти (пошук)
   const getFilteredContacts = () => {
-    console.log('getFilteredContacts works');
     const normalizedFilter = stateFilter.toLowerCase();
-    console.log('stateContacts', stateContacts);
-    console.log(
-      'stateContacts.filter',
-      stateContacts.filter(contact =>
-        contact.name.toLowerCase().includes(normalizedFilter),
-      ),
-    );
     return stateContacts.filter(contact =>
       contact.name.toLowerCase().includes(normalizedFilter),
     );
   };
 
   const deleteContact = contactId => {
-    // this.setState(prevState => ({
-    //   contacts: prevState.contacts.filter(contact => contact.id !== contactId),
-    setStateContacts(prevState => {
-      // console.log(prevState);
-      // console.log(prevState.filter(contact => contact.id !== contactId));
-      prevState.filter(contact => contact.id !== contactId);
-    });
-    // }));
+    const filteredContacts = stateContacts.filter(
+      contact => contact.id !== contactId,
+    );
+    setStateContacts(filteredContacts);
   };
 
   return (
