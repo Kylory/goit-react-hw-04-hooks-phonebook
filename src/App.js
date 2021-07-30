@@ -1,33 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ContactForm from './components/ContactForm/ContactForm';
 import ContactsList from './components/ContactsList/ContactsList';
 import SearchContacts from './components/SearchContacts/SearchContacts';
 import shortid from 'shortid';
 
 const App = () => {
-  const [stateContacts, setStateContacts] = useState([
-    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  ]);
+  const [stateContacts, setStateContacts] = useState(
+    JSON.parse(window.localStorage.getItem('contacts')) ?? '',
+  );
   const [stateFilter, setStateFilter] = useState('');
 
-  // Записує конткти в state з Local Storage
-  // componentDidMount() {
-  //   const savedContacts = localStorage.getItem('contacts');
-
-  //   if (savedContacts) {
-  //     const parsedContacts = JSON.parse(savedContacts);
-  //     this.setState({ contacts: parsedContacts });
-  //   }
-  // }
-
-  // Записує конткти в Local Storage з state
-  // componentDidUpdate() {
-  //   const { contacts } = this.state;
-  //   localStorage.setItem('contacts', JSON.stringify(contacts));
-  // }
+  // Записує конткти в Local Storage з stateContacts
+  useEffect(() => {
+    window.localStorage.setItem('contacts', JSON.stringify(stateContacts));
+  }, [stateContacts]);
 
   //Записує в contacts дані з форми
   //прокидується як prop в ContactForm
@@ -43,10 +29,12 @@ const App = () => {
 
   //Повертає відфільтровані контакти (пошук)
   const getFilteredContacts = () => {
-    const normalizedFilter = stateFilter.toLowerCase();
-    return stateContacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedFilter),
-    );
+    if (stateContacts) {
+      const normalizedFilter = stateFilter.toLowerCase();
+      return stateContacts.filter(contact =>
+        contact.name.toLowerCase().includes(normalizedFilter),
+      );
+    }
   };
 
   const deleteContact = contactId => {
@@ -62,7 +50,12 @@ const App = () => {
       <ContactForm onSubmit={formSubmitHandler} contacts={stateContacts} />
       <h2>Contacts</h2>
       <SearchContacts value={stateFilter} onChange={changeFilter} />
-      <ContactsList contacts={getFilteredContacts()} onDelete={deleteContact} />
+      {stateContacts && (
+        <ContactsList
+          contacts={getFilteredContacts()}
+          onDelete={deleteContact}
+        ></ContactsList>
+      )}
     </>
   );
 };

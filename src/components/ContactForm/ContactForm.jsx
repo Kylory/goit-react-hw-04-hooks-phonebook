@@ -25,7 +25,10 @@ const ContactForm = props => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    if (props.contacts.find(contact => contact.name === stateName)) {
+    if (
+      props.contacts &&
+      props.contacts.find(contact => contact.name === stateName)
+    ) {
       return alert(stateName + ' is already in contacts');
     }
 
