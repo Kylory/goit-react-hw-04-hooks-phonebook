@@ -10,19 +10,19 @@ const App = () => {
   );
   const [stateFilter, setStateFilter] = useState('');
 
-  // Записує конткти в Local Storage з stateContacts
+  // Записує конткти в Local Storage з stateContacts при їх оновленні
   useEffect(() => {
     window.localStorage.setItem('contacts', JSON.stringify(stateContacts));
   }, [stateContacts]);
 
-  //Записує в contacts дані з форми
+  //Записує в stateContacts дані з форми ContactForm
   //прокидується як prop в ContactForm
   const formSubmitHandler = data => {
     data.id = shortid.generate();
     setStateContacts(prevState => [...prevState, data]);
   };
 
-  //Записує дані з фільтру в state
+  //Записує дані з фільтру в stateFilter
   const changeFilter = e => {
     setStateFilter(() => e.target.value);
   };

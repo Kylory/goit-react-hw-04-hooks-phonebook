@@ -24,7 +24,6 @@ const ContactForm = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-
     if (
       props.contacts &&
       props.contacts.find(contact => contact.name === stateName)
@@ -32,7 +31,7 @@ const ContactForm = props => {
       return alert(stateName + ' is already in contacts');
     }
 
-    //При сабміті форми передвє дані в formSubmitHandler, яка в пропсах
+    //При сабміті форми передає дані в formSubmitHandler(onSubmit), яка в пропсах
     props.onSubmit({ name: stateName, number: stateNumber });
     reset();
   };
